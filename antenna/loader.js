@@ -4,6 +4,7 @@ const ROUTER_SCRIPT = `${NAS_IP}/router.js`;
 const TARGETS_FILE = `${NAS_IP}/targets.json`;
 
 // State
+let loaded = false;
 let allowedDomains = [];
 
 // Rule syncing logic
@@ -51,8 +52,9 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       tab.url.includes(domain)
     );
 
-    if (isTarget) {
+    if (isTarget && !loaded) {
       console.log(`Target Match [${tab.url}]. Injecting Omni...`);
+      loaded = true;
 
       chrome.scripting
         .executeScript({
