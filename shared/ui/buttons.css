@@ -1,0 +1,68 @@
+.omni-button {
+  background-color: var(--omni-blue);
+  color: white;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9em;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.omni-button:disabled {
+  background-color: var(--omni-grey);
+  cursor: not-allowed;
+}
+
+.omni-button::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 1px;
+  top: 1px;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  background-color: var(--omni-blue);
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.gite-hunter-btn:hover::after {
+  background-color: var(--omni-blue);
+}
+
+.omni-button[data-busy='true']::before,
+.omni-button[data-busy='true']::after {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  left: -50%;
+  top: -50%;
+  width: 200%;
+  height: 200%;
+  background-color: var(--omni-dark);
+  background-repeat: no-repeat;
+  background-size: 100%100%, 50%50%;
+  background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+  background-image: linear-gradient(
+    var(--omni-dark),
+    var(--omni-light-blue)
+  );
+  animation: bgRotate 4s linear infinite;
+}
+
+.omni-button[data-active='true']::after {
+  background: #4c5d74;
+}
+
+.omni-button[data-active='true']::before {
+  background-image: linear-gradient(
+    var(--omni-dark),
+    var(--omni-light-blue)
+  ) !important;
+}

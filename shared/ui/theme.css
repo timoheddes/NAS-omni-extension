@@ -1,0 +1,13 @@
+:root {
+  --omni-cyan: #22d3ee;
+  --omni-purple: #a855f7;
+  --omni-pink: #f472b6;
+  --omni-dark: #0f172a;
+  --omni-blue: #2c3e50;
+  --omni-light-blue: #687aff;
+  --omni-grey: #95a5a6;
+  --omni-panel-bg: rgba(15, 23, 42, 0.95);
+  --omni-font: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --omni-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
