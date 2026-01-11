@@ -22,13 +22,17 @@ export function injectStatusIcon(onClick, title) {
                   --bg-dark: #0f172a;
               }
 
-              /* ENTRANCE ANIMATION */
+              /* ENTRANCE ANIMATION (Icon spins in) */
               @keyframes loadAnimation {
                 0% { transform: scale(0) rotate(-720deg); opacity: 0; }
                 100% { transform: scale(1) rotate(0deg); opacity: 1; }
               }
 
-              /* WRAPPER */
+              /* GLOW FADE IN (Ignites after delay) */
+              @keyframes igniteGlow {
+                to { opacity: 1; }
+              }
+
               .wrapper {
                   position: relative;
                   width: 40px;
@@ -38,11 +42,10 @@ export function injectStatusIcon(onClick, title) {
                   justify-content: center;
               }
 
-              /* THE RGB GLOW (Layer 0) */
-              /* Sits absolutely behind the container */
+              /* THE RGB GLOW (Always On, but Delayed) */
               .glow {
                   position: absolute;
-                  inset: -6px; /* How much it spills out */
+                  inset: -6px;
                   border-radius: 50%;
                   background: conic-gradient(
                       from 0deg,
@@ -52,45 +55,41 @@ export function injectStatusIcon(onClick, title) {
                       var(--neon-cyan)
                   );
                   filter: blur(8px);
-                  opacity: 0;        /* Hidden by default */
-                  z-index: 0;        /* Behind Container */
-                  transition: opacity 0.4s ease;
+                  opacity: 0; /* Hidden initially */
+                  z-index: 0;
+
+                  /* 1. rotateGlow: Spins forever
+                     2. igniteGlow: Fades opacity from 0 to 1 once
+                  */
+                  animation:
+                    rotateGlow 3s linear infinite,
+                    igniteGlow 0.5s ease-out forwards;
+
+                  /* ⚡ WAIT 1.5s before starting both animations */
+                  animation-delay: 1.5s, 1.5s;
               }
 
-              /* THE MAIN ICON */
               .container {
                   position: relative;
-                  z-index: 1; /* Sits ON TOP of the glow */
-
+                  z-index: 1;
                   width: 100%;
                   height: 100%;
-                  background: var(--bg-dark); /* Masks the center of the glow */
+                  background: var(--bg-dark);
                   border-radius: 50%;
-
-                  /* Glassy look */
                   box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
                   border: 1px solid rgba(255,255,255,0.1);
-
                   display: flex;
                   align-items: center;
                   justify-content: center;
-
                   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
-                  /* Entrance Animation */
+                  /* Initial Entrance */
                   animation: 1.5s loadAnimation ease-out forwards;
               }
 
-              /* Scale the orb */
-              .wrapper .container {
+              /* Hover Effect: Just a slight pop now (since glow is permanent) */
+              .wrapper:hover .container {
                   transform: scale(1.1);
-              }
-
-              /* Spin the glow */
-              .wrapper .glow {
-                  opacity: 1;
-                  animation: rotateGlow 1.5s linear infinite;
-                  animation-delay: 1.5s;
               }
 
               svg {
@@ -108,8 +107,7 @@ export function injectStatusIcon(onClick, title) {
               .dna-ring {
                   animation: spin 10s linear infinite;
                   transform-origin: center;
-                  /* Wait for entrance to finish before spinning */
-                  animation-delay: 1.5s;
+                  animation-delay: 1.5s; /* Syncs with glow appearance */
               }
 
               .node { animation: flicker 4s infinite ease-in-out; }
@@ -167,7 +165,6 @@ export function injectStatusIcon(onClick, title) {
       `;
 
   if (onClick) {
-    // Attach click to the wrapper so it works even if you click the glow
     shadow
       .querySelector('.wrapper')
       .addEventListener('click', onClick);
