@@ -1,5 +1,3 @@
-import { printToConsole } from './console.js';
-
 export function injectStatusIcon(onClick, title, position) {
   if (document.getElementById('nas-omni-root')) return;
 
@@ -139,5 +137,4 @@ export function injectStatusIcon(onClick, title, position) {
   }
 
   shadow.innerHTML = styles + html;
-  printToConsole('status icon injected.');
 }
