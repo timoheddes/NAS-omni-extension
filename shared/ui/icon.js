@@ -114,20 +114,10 @@ export function injectStatusIcon(onClick, title, position) {
         </div>
     `;
 
-  const container = shadow.querySelector('.container');
-  container.style.opacity = '0';
-  container.style.transform = 'scale(0)';
-  container.style.transition =
-    'transform 0.5s ease-in-out , opacity 0.5s ease-in-out';
-  setTimeout(() => {
-    requestAnimationFrame(() => {
-      container.style.transform = 'scale(1)';
-      container.style.opacity = '1';
-    });
-  }, 300);
-
   if (onClick) {
-    container.addEventListener('click', onClick);
+    shadow
+      .querySelector('.container')
+      .addEventListener('click', onClick);
   }
 
   shadow.innerHTML = styles + html;
