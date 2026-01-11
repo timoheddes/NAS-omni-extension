@@ -111,7 +111,7 @@ export function injectStatusIcon(onClick, title) {
               }
 
               .core { animation: pulse 3s infinite ease-in-out; transform-origin: center; }
-              .dna-ring { animation: spin 10s linear infinite; transform-origin: center; animation-delay: 1.5s; }
+              .dna-ring { transform-origin: center; animation-delay: 1.5s; }
 
               .node { animation: flicker 4s infinite ease-in-out; }
               .node:nth-child(2) { animation-delay: 1s; }
