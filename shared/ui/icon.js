@@ -32,7 +32,7 @@ export function injectStatusIcon(onClick, title, position) {
               }
               100% {
                 transform: scale(1);
-                rotate: 360deg;
+                rotate: 720deg;
                 opacity: 1;
               }
             }
@@ -51,7 +51,7 @@ export function injectStatusIcon(onClick, title, position) {
                 justify-content: center;
                 transition: transform 0.3s ease, width 0.3s ease;
                 overflow: hidden;
-                animation: 1.5s loadAnimation ease forwards;
+                animation: 1.5s loadAnimation ease-out forwards;
             }
 
             /* Hover Effect: Expand slightly */
