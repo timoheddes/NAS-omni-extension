@@ -1,5 +1,4 @@
-import { BASE_URL } from './constants.js';
-import { SELECTORS } from './selectors.js';
+import { BASE_URL, SELECTORS } from '../constants.js';
 
 export const isSinglePropertyPage = (property) =>
   property.classList.contains('gallery-container');
