@@ -90,6 +90,7 @@ export function injectStatusIcon(onClick, title) {
               .wrapper .glow {
                   opacity: 1;
                   animation: rotateGlow 1.5s linear infinite;
+                  animation-delay: 1.5s;
               }
 
               svg {
