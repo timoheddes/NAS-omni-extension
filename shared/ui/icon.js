@@ -8,7 +8,7 @@ export function injectStatusIcon(onClick, title, position) {
   host.id = 'nas-omni-root';
   host.setAttribute(
     'style',
-    'position: fixed; bottom: 10px; right: 50px; z-index: 99999; cursor: pointer; opacity: 0.8; backdrop-filter: blur(6px) brightness(145%); -webkit-backdrop-filter: blur(6px) brightness(145%);'
+    'position: fixed; bottom: 10px; right: 50px; z-index: 99999; cursor: pointer;'
   );
   document.body.appendChild(host);
 
@@ -24,10 +24,24 @@ export function injectStatusIcon(onClick, title, position) {
                 --bg-dark: #0f172a;
             }
 
+            @keyframes fadeInUp {
+              0% {
+                transform: translateY(100%);
+                opacity: 0;
+              }
+              100% {
+                transform: translateY(0%);
+                opacity: 1;
+              }
+            }
+
             .container {
                 width: 40px;
                 height: 40px;
                 background: var(--bg-dark);
+                opacity: 0.8;
+                backdrop-filter: blur(6px) brightness(145%);
+                -webkit-backdrop-filter: blur(6px) brightness(145%);
                 border-radius: 50%;
                 box-shadow: 0 0 15px rgba(34, 211, 238, 0.3), inset 0 0 10px rgba(0,0,0,0.5);
                 display: flex;
@@ -35,6 +49,7 @@ export function injectStatusIcon(onClick, title, position) {
                 justify-content: center;
                 transition: transform 0.3s ease, width 0.3s ease;
                 overflow: hidden;
+                animation: 1.5s fadeInUp;
             }
 
             /* Hover Effect: Expand slightly */
