@@ -1,16 +1,16 @@
 import { printToConsole } from './console.js';
 
-export function injectStatusIcon() {
+export function injectStatusIcon(onClick, title, position) {
   if (document.getElementById('nas-omni-root')) return;
 
   // Create a host for Shadow DOM to prevent style conflicts
   const host = document.createElement('div');
   host.id = 'nas-omni-root';
   host.style.position = 'fixed';
-  host.style.bottom = '20px';
-  host.style.right = '20px';
+  host.style.bottom = position?.bottom || '10px';
+  host.style.right = position?.right || '50px';
   host.style.zIndex = '99999';
-  host.style.cursor = 'pointer';
+  host.style.cursor = onClick ? 'pointer' : 'default';
   document.body.appendChild(host);
 
   const shadow = host.attachShadow({ mode: 'open' });
@@ -26,8 +26,8 @@ export function injectStatusIcon() {
             }
 
             .container {
-                width: 50px;
-                height: 50px;
+                width: 40px;
+                height: 40px;
                 background: var(--bg-dark);
                 border-radius: 50%;
                 box-shadow: 0 0 15px rgba(34, 211, 238, 0.3), inset 0 0 10px rgba(0,0,0,0.5);
@@ -36,18 +36,17 @@ export function injectStatusIcon() {
                 justify-content: center;
                 transition: transform 0.3s ease, width 0.3s ease;
                 overflow: hidden;
-                border: 2px solid rgba(255,255,255,0.1);
             }
 
             /* Hover Effect: Expand slightly */
             .container:hover {
-                transform: scale(1.1);
+                transform: scale(1.05);
                 box-shadow: 0 0 25px rgba(34, 211, 238, 0.6);
             }
 
             svg {
-                width: 32px;
-                height: 32px;
+                width: 28px;
+                height: 28px;
             }
 
             /* ANIMATIONS */
@@ -93,7 +92,9 @@ export function injectStatusIcon() {
 
   // The SVG Structure
   const html = `
-        <div class="container" title="NAS Omni-Tool Active">
+        <div class="container" title="${
+          title || 'NAS Omni-Tool is active on this site'
+        }">
             <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g class="dna-ring">
                     <path d="M120 120 C 180 180, 332 332, 392 392" stroke="var(--neon-cyan)" stroke-width="24" stroke-linecap="round" stroke-opacity="0.8"/>
@@ -112,6 +113,22 @@ export function injectStatusIcon() {
             </svg>
         </div>
     `;
+
+  const container = shadow.querySelector('.container');
+  container.style.opacity = '0';
+  container.style.transform = 'scale(0)';
+  container.style.transition =
+    'transform 0.5s ease-in-out , opacity 0.5s ease-in-out';
+  setTimeout(() => {
+    requestAnimationFrame(() => {
+      container.style.transform = 'scale(1)';
+      container.style.opacity = '1';
+    });
+  }, 300);
+
+  if (onClick) {
+    container.addEventListener('click', onClick);
+  }
 
   shadow.innerHTML = styles + html;
   printToConsole('status icon injected.');
