@@ -2,6 +2,16 @@ export const SELECTORS = {
   card: '.announce-card',
   gallery: '.gallery-container',
   locationContainer: '.announce-localisation',
+
+  button: '.gite-hunter-btn',
+  container: '.gite-hunter-container',
+  result: '.gite-hunter-result',
+  addInfo: '.gite-hunter-add-info',
+
+  analyseButton: '#gite-hunter-analyse-btn',
+  infoButton: '#gite-hunter-additional-info-btn',
+  copyButton: '.gite-hunter-copy-btn',
+  deleteButton: '#gite-hunter-delete-btn',
 };
 
 export const BASE_URL =
