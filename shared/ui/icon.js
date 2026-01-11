@@ -157,3 +157,7 @@ export function injectStatusIcon(onClick, title) {
 
   shadow.innerHTML = styles + html;
 }
+
+export function setStatusIconBusy(isBusy) {
+  document.getElementById('nas-omni-root').setBusy(isBusy);
+}

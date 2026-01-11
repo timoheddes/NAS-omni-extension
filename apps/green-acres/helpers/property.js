@@ -1,7 +1,10 @@
-window.GiteHunter.isSinglePropertyPage = (property) =>
+import { BASE_URL } from './constants.js';
+import { SELECTORS } from './selectors.js';
+
+export const isSinglePropertyPage = (property) =>
   property.classList.contains('gallery-container');
 
-window.GiteHunter.createLocationSlug = (text) =>
+export const createLocationSlug = (text) =>
   text
     .toLowerCase()
     .replace(/ *\([^)]*\) */g, '')
@@ -9,12 +12,7 @@ window.GiteHunter.createLocationSlug = (text) =>
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/\s+/g, '-');
 
-window.GiteHunter.extractPropertyData = (property) => {
-  const { CONSTANTS, SELECTORS } = window.GiteHunter;
-
-  const { isSinglePropertyPage, createLocationSlug } =
-    window.GiteHunter;
-
+export const extractPropertyData = (property) => {
   let url = '';
   let advertId = '';
 
@@ -32,7 +30,7 @@ window.GiteHunter.extractPropertyData = (property) => {
       locationContainer.innerText
     );
 
-    url = `${CONSTANTS.BASE_URL}${locationSlug}/${advertId}.htm`;
+    url = `${BASE_URL}${locationSlug}/${advertId}.htm`;
   } else {
     // Single property page, extract advertId from URL
     url = window.location.href;
