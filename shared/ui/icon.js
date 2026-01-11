@@ -56,7 +56,6 @@ export function injectStatusIcon(onClick, title, position) {
 
             /* Hover Effect: Expand slightly */
             .container:hover {
-                transform: scale(1.05);
                 box-shadow: 0 0 25px rgba(34, 211, 238, 0.6);
             }
 

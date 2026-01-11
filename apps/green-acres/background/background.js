@@ -4,8 +4,7 @@ import {
   urlToGenerativePart,
 } from './images.js';
 
-const GEMINI_API_KEY = 'AIzaSyCHaAU_VFGPbo9XzQVsuFpuwY0zMNjA8w0';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+import { GEMINI_URL } from '../../config.js';
 
 function extractDescription(html) {
   // Narrative text from the agent
