@@ -6,6 +6,6 @@ printToConsole(`active on: ${currentUrl}`);
 injectStatusIcon();
 
 // Green Acres
-if (currentUrl.includes('green-acres.fr')) {
-  import('./apps/green-acres/main.js');
-}
+// if (currentUrl.includes('green-acres.fr')) {
+//   import('./apps/green-acres/main.js');
+// }
