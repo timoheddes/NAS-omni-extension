@@ -11,6 +11,16 @@ export function injectStatusIcon(onClick, title) {
   );
   document.body.appendChild(host);
 
+  // --- API: Expose control methods to the DOM element ---
+  host.setBusy = function (isBusy) {
+    const wrapper = shadow.querySelector('.wrapper');
+    if (isBusy) {
+      wrapper.classList.add('busy');
+    } else {
+      wrapper.classList.remove('busy');
+    }
+  };
+
   const shadow = host.attachShadow({ mode: 'open' });
 
   const styles = `
@@ -22,16 +32,12 @@ export function injectStatusIcon(onClick, title) {
                   --bg-dark: #0f172a;
               }
 
-              /* ENTRANCE ANIMATION (Icon spins in) */
               @keyframes loadAnimation {
-                0% { transform: scale(0) rotate(-720deg); opacity: 0; }
-                100% { transform: scale(1) rotate(0deg); opacity: 1; }
+                0% { transform: scale(0) rotate(0); opacity: 0; }
+                100% { transform: scale(1) rotate(720deg); opacity: 1; }
               }
 
-              /* GLOW FADE IN (Ignites after delay) */
-              @keyframes igniteGlow {
-                to { opacity: 1; }
-              }
+              @keyframes igniteGlow { to { opacity: 1; } }
 
               .wrapper {
                   position: relative;
@@ -40,32 +46,43 @@ export function injectStatusIcon(onClick, title) {
                   display: flex;
                   align-items: center;
                   justify-content: center;
+                  transition: all 0.3s ease;
               }
 
-              /* THE RGB GLOW (Always On, but Delayed) */
+              /* --- BUSY STATE OVERRIDES --- */
+              .wrapper.busy .container {
+                  box-shadow: 0 0 20px var(--neon-cyan), inset 0 0 20px var(--neon-cyan);
+                  border-color: rgba(255,255,255,0.8);
+              }
+
+              /* Speed up rotation when busy */
+              .wrapper.busy .dna-ring {
+                  animation-duration: 1s !important;
+              }
+
+              /* Panic heartbeat when busy */
+              .wrapper.busy .core {
+                  animation-duration: 0.5s !important;
+                  fill: #fff !important; /* Core turns white hot */
+              }
+
+              /* Speed up glow spin */
+              .wrapper.busy .glow {
+                   animation-duration: 0.5s, 0.5s !important;
+                   filter: blur(12px); /* Intensify glow */
+              }
+
+              /* --------------------------- */
+
               .glow {
                   position: absolute;
                   inset: -6px;
                   border-radius: 50%;
-                  background: conic-gradient(
-                      from 0deg,
-                      var(--neon-cyan),
-                      var(--neon-purple),
-                      var(--neon-pink),
-                      var(--neon-cyan)
-                  );
+                  background: conic-gradient(from 0deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink), var(--neon-cyan));
                   filter: blur(8px);
-                  opacity: 0; /* Hidden initially */
+                  opacity: 0;
                   z-index: 0;
-
-                  /* 1. rotateGlow: Spins forever
-                     2. igniteGlow: Fades opacity from 0 to 1 once
-                  */
-                  animation:
-                    rotateGlow 3s linear infinite,
-                    igniteGlow 0.5s ease-out forwards;
-
-                  /* ⚡ WAIT 1.5s before starting both animations */
+                  animation: rotateGlow 3s linear infinite, igniteGlow 0.5s ease-out forwards;
                   animation-delay: 1.5s, 1.5s;
               }
 
@@ -82,15 +99,10 @@ export function injectStatusIcon(onClick, title) {
                   align-items: center;
                   justify-content: center;
                   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-                  /* Initial Entrance */
                   animation: 1.5s loadAnimation ease-out forwards;
               }
 
-              /* Hover Effect: Just a slight pop now (since glow is permanent) */
-              .wrapper:hover .container {
-                  transform: scale(1.1);
-              }
+              .wrapper:hover .container { transform: scale(1.1); }
 
               svg {
                   width: 26px;
@@ -98,43 +110,18 @@ export function injectStatusIcon(onClick, title) {
                   filter: drop-shadow(0 0 2px rgba(34, 211, 238, 0.5));
               }
 
-              /* INNER ANIMATIONS */
-              .core {
-                  animation: pulse 3s infinite ease-in-out;
-                  transform-origin: center;
-              }
-
-              .dna-ring {
-                  animation: spin 10s linear infinite;
-                  transform-origin: center;
-                  animation-delay: 1.5s; /* Syncs with glow appearance */
-              }
+              .core { animation: pulse 3s infinite ease-in-out; transform-origin: center; }
+              .dna-ring { animation: spin 10s linear infinite; transform-origin: center; animation-delay: 1.5s; }
 
               .node { animation: flicker 4s infinite ease-in-out; }
               .node:nth-child(2) { animation-delay: 1s; }
               .node:nth-child(3) { animation-delay: 2s; }
               .node:nth-child(4) { animation-delay: 0.5s; }
 
-              @keyframes spin {
-                  from { transform: rotate(0deg); }
-                  to { transform: rotate(360deg); }
-              }
-
-              @keyframes pulse {
-                  0%, 100% { opacity: 0.8; transform: scale(1); }
-                  50% { opacity: 0.4; transform: scale(0.9); }
-              }
-
-              @keyframes flicker {
-                  0%, 100% { opacity: 1; }
-                  55% { opacity: 1; }
-                  70% { opacity: 0.3; }
-              }
-
-              @keyframes rotateGlow {
-                  0% { transform: rotate(0deg); }
-                  100% { transform: rotate(360deg); }
-              }
+              @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+              @keyframes pulse { 0%, 100% { opacity: 0.8; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.9); } }
+              @keyframes flicker { 0%, 100% { opacity: 1; } 55% { opacity: 1; } 70% { opacity: 0.3; } }
+              @keyframes rotateGlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
           </style>
       `;
 
@@ -149,13 +136,11 @@ export function injectStatusIcon(onClick, title) {
                           <path d="M120 120 C 180 180, 332 332, 392 392" stroke="var(--neon-cyan)" stroke-width="24" stroke-linecap="round" stroke-opacity="0.8"/>
                           <path d="M392 120 C 332 180, 290 220, 270 240" stroke="var(--neon-cyan)" stroke-width="24" stroke-linecap="round"/>
                           <path d="M240 270 C 220 290, 180 332, 120 392" stroke="var(--neon-cyan)" stroke-width="24" stroke-linecap="round"/>
-
                           <circle class="node" cx="120" cy="120" r="25" fill="var(--neon-purple)"/>
                           <circle class="node" cx="392" cy="392" r="25" fill="var(--neon-purple)"/>
                           <circle class="node" cx="392" cy="120" r="25" fill="var(--neon-pink)"/>
                           <circle class="node" cx="120" cy="392" r="25" fill="var(--neon-pink)"/>
                       </g>
-
                       <circle cx="256" cy="256" r="60" fill="var(--neon-cyan)" opacity="0.1"/>
                       <circle class="core" cx="256" cy="256" r="35" fill="var(--neon-cyan)"/>
                       <circle class="core" cx="256" cy="256" r="15" fill="#fff"/>
