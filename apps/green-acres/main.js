@@ -4,6 +4,7 @@ import {
 } from '../../shared/ui/components.js';
 import { setStatusIconBusy } from '../../shared/ui/icon.js';
 import { printToConsole } from '../../shared/ui/console.js';
+import { getAnalysis, deleteAnalysis } from './storage.js';
 
 import { SELECTORS, ATTRIBUTES, HTML } from './constants.js';
 import { extractPropertyData } from './helpers/property.js';
@@ -66,15 +67,12 @@ function processProperty(property) {
   );
 
   // Check for cached result
-  chrome.storage.local.get([advertId], (result) => {
-    if (result[advertId]) {
+  getAnalysis(advertId).then((cachedData) => {
+    if (cachedData) {
       // CACHE HIT: Pre-load the data
       analyseButton.innerText = TEXT.showAnalysis;
       analyseButton.setAttribute(ATTRIBUTES.active, 'true');
-      analyseButton.setAttribute(
-        ATTRIBUTES.cachedResult,
-        result[advertId]
-      );
+      analyseButton.setAttribute(ATTRIBUTES.cachedResult, cachedData);
       deleteButton.style.display = 'inline-block';
     }
   });
@@ -121,41 +119,41 @@ function processProperty(property) {
     );
 
     // Send message to background script to do the heavy lifting
-    chrome.runtime.sendMessage(
-      {
-        action: 'analyze_property',
-        url: url,
-        additionalInfo:
-          infoButton.getAttribute('data-additional-info') || null,
-      },
-      (response) => {
-        clearInterval(loadInterval);
-        analyseButton.innerText = TEXT.showAnalysis;
-        analyseButton.disabled = false;
+    // chrome.runtime.sendMessage(
+    //   {
+    //     action: 'analyze_property',
+    //     url: url,
+    //     additionalInfo:
+    //       infoButton.getAttribute('data-additional-info') || null,
+    //   },
+    //   (response) => {
+    //     clearInterval(loadInterval);
+    //     analyseButton.innerText = TEXT.showAnalysis;
+    //     analyseButton.disabled = false;
 
-        const dataToStore = {};
-        dataToStore[advertId] = response.data;
-        chrome.storage.local.set(dataToStore, () => {
-          console.log('💾 Result saved to cache.');
-        });
+    //     const dataToStore = {};
+    //     dataToStore[advertId] = response.data;
+    //     chrome.storage.local.set(dataToStore, () => {
+    //       console.log('💾 Result saved to cache.');
+    //     });
 
-        analyseButton.setAttribute(ATTRIBUTES.busy, 'false');
-        analyseButton.setAttribute(ATTRIBUTES.active, 'true');
-        analyseButton.setAttribute(
-          ATTRIBUTES.cachedResult,
-          response.data
-        );
-        toggleVisibility(giteHunterResultContainer);
-        deleteButton.style.display = 'inline-block';
+    //     analyseButton.setAttribute(ATTRIBUTES.busy, 'false');
+    //     analyseButton.setAttribute(ATTRIBUTES.active, 'true');
+    //     analyseButton.setAttribute(
+    //       ATTRIBUTES.cachedResult,
+    //       response.data
+    //     );
+    //     toggleVisibility(giteHunterResultContainer);
+    //     deleteButton.style.display = 'inline-block';
 
-        renderResult(
-          response.data,
-          url,
-          analyseButton,
-          giteHunterResultContainer
-        );
-      }
-    );
+    //     renderResult(
+    //       response.data,
+    //       url,
+    //       analyseButton,
+    //       giteHunterResultContainer
+    //     );
+    //   }
+    // );
   };
 
   infoButton.onclick = (e) => {
@@ -190,7 +188,7 @@ function processProperty(property) {
     );
     if (!confirmDelete) return;
 
-    chrome.storage.local.remove([advertId], () => {
+    deleteAnalysis(advertId).then(() => {
       console.log('🗑️ Cached analysis deleted.');
       analyseButton.removeAttribute(ATTRIBUTES.cachedResult);
       analyseButton.setAttribute(ATTRIBUTES.active, 'false');
