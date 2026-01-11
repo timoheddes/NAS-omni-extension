@@ -81,15 +81,13 @@ export function injectStatusIcon(onClick, title) {
                   animation: 1.5s loadAnimation ease-out forwards;
               }
 
-              /* --- HOVER STATES --- */
-
               /* Scale the orb */
-              .wrapper:hover .container {
+              .wrapper .container {
                   transform: scale(1.1);
               }
 
-              /* Reveal and spin the glow */
-              .wrapper:hover .glow {
+              /* Spin the glow */
+              .wrapper .glow {
                   opacity: 1;
                   animation: rotateGlow 1.5s linear infinite;
               }
