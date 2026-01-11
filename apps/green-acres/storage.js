@@ -1,4 +1,4 @@
-import { sendToAntenna } from '../../shared/bridge.js';
+import { sendToAntenna } from '../../shared/bridge-helper.js';
 
 export async function saveAnalysis(advertId, data) {
   try {

@@ -22,13 +22,7 @@
 
   "web_accessible_resources": [
     {
-      "resources": [
-        "apps/**/*.js",
-        "shared/**/*.js",
-        "shared/**/*.css",
-        "router.js",
-        "bridge.js"
-      ],
+      "resources": ["bridge.js"],
       "matches": ["<all_urls>"]
     }
   ]
