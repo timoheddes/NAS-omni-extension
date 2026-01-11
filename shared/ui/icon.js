@@ -24,13 +24,13 @@ export function injectStatusIcon(onClick, title, position) {
                 --bg-dark: #0f172a;
             }
 
-            @keyframes fadeInUp {
+            @keyframes loadAnimation {
               0% {
-                transform: translateY(100%);
+                transform: scale(1);
                 opacity: 0;
               }
               100% {
-                transform: translateY(0%);
+                transform: scale(0);
                 opacity: 1;
               }
             }
@@ -39,7 +39,7 @@ export function injectStatusIcon(onClick, title, position) {
                 width: 40px;
                 height: 40px;
                 background: var(--bg-dark);
-                opacity: 0.8;
+                opacity: 0.9;
                 backdrop-filter: blur(6px) brightness(145%);
                 -webkit-backdrop-filter: blur(6px) brightness(145%);
                 border-radius: 50%;
@@ -49,7 +49,7 @@ export function injectStatusIcon(onClick, title, position) {
                 justify-content: center;
                 transition: transform 0.3s ease, width 0.3s ease;
                 overflow: hidden;
-                animation: 1.5s fadeInUp;
+                animation: 1.5s loadAnimation ease forwards;
             }
 
             /* Hover Effect: Expand slightly */
