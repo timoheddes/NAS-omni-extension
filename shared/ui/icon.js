@@ -8,7 +8,9 @@ export function injectStatusIcon(onClick, title, position) {
   host.id = 'nas-omni-root';
   host.setAttribute(
     'style',
-    'position: fixed; bottom: 10px; right: 50px; z-index: 99999; cursor: pointer;'
+    `position: fixed; bottom: 10px; right: 50px; z-index: 99999; cursor: ${
+      onClick ? 'pointer' : 'default'
+    };`
   );
   document.body.appendChild(host);
 

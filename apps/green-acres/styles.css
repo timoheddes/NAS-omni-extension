@@ -1,0 +1,23 @@
+.gite-hunter-container {
+  position: absolute;
+  z-index: 10;
+  left: 1em;
+  top: 1em;
+  background: transparent;
+  border-radius: 1em;
+  margin-top: 0;
+}
+
+.gite-hunter-copy-btn {
+  background: #575757;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.gite-hunter-copy-btn:hover {
+  background: #6e6e6e;
+}
+
+#gite-hunter-delete-btn {
+  margin-left: 1px;
+}
