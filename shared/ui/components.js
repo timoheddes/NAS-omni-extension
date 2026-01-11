@@ -13,7 +13,7 @@ export function loadOmniTheme() {
       link.rel = 'stylesheet';
       link.href = cssUrl;
       document.head.appendChild(link);
-      printToConsole(`loaded: ${file}.`);
+      printToConsole(`loaded: ${file}`);
     }
   });
 }
