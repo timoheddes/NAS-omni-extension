@@ -6,11 +6,10 @@ export function injectStatusIcon(onClick, title, position) {
   // Create a host for Shadow DOM to prevent style conflicts
   const host = document.createElement('div');
   host.id = 'nas-omni-root';
-  host.style.position = 'fixed';
-  host.style.bottom = position?.bottom || '10px';
-  host.style.right = position?.right || '50px';
-  host.style.zIndex = '99999';
-  host.style.cursor = onClick ? 'pointer' : 'default';
+  host.setAttribute(
+    'style',
+    'position: fixed; bottom: 10px; right: 50px; z-index: 99999; cursor: pointer; opacity: 0.8; backdrop-filter: blur(6px) brightness(145%); -webkit-backdrop-filter: blur(6px) brightness(145%);'
+  );
   document.body.appendChild(host);
 
   const shadow = host.attachShadow({ mode: 'open' });
