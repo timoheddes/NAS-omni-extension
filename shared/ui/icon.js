@@ -26,11 +26,13 @@ export function injectStatusIcon(onClick, title, position) {
 
             @keyframes loadAnimation {
               0% {
-                transform: scale(1);
+                transform: scale(0);
+                rotate: 0deg;
                 opacity: 0;
               }
               100% {
-                transform: scale(0);
+                transform: scale(1);
+                rotate: 360deg;
                 opacity: 1;
               }
             }
