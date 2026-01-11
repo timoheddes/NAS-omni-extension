@@ -77,6 +77,7 @@ export function injectStatusIcon(onClick, title, position) {
             .dna-ring {
                 animation: spin 10s linear infinite;
                 transform-origin: center;
+                animation-delay: 1.5s;
             }
 
             /* 3. The Nodes (Flicker) */
