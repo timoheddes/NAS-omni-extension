@@ -111,14 +111,14 @@ export function injectStatusIcon(onClick, title) {
               }
 
               .core { animation: pulse 3s infinite ease-in-out; transform-origin: center; }
-              .dna-ring { transform-origin: center; animation-delay: 1.5s; }
+              .dna-ring { animation: spin 10s linear infinite; transform-origin: 256px 256px; animation-delay: 1.5s; }
 
               .node { animation: flicker 4s infinite ease-in-out; }
               .node:nth-child(2) { animation-delay: 1s; }
               .node:nth-child(3) { animation-delay: 2s; }
               .node:nth-child(4) { animation-delay: 0.5s; }
 
-              @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+              @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(359.9deg); } }
               @keyframes pulse { 0%, 100% { opacity: 0.8; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.9); } }
               @keyframes flicker { 0%, 100% { opacity: 1; } 55% { opacity: 1; } 70% { opacity: 0.3; } }
               @keyframes rotateGlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
